@@ -22,8 +22,23 @@ jobs:
           jwt_token: ${{ secrets.TESTBOT_JWT_TOKEN }}
           test_bot_configuration: ${{ steps.config.outputs.config }}
 
-      - name: Show Results
+      - name: Show Results Summary
+        if: always()
         run: |
           echo "Execution ID: ${{ steps.testbot.outputs.execution_id }}"
           echo "Status: ${{ steps.testbot.outputs.status }}"
           echo "Results: ${{ steps.testbot.outputs.results_path }}"
+
+      - name: Display Result JSON
+        if: always()
+        run: |
+          echo "===== TESTBOT RESULT ====="
+          cat "${{ steps.testbot.outputs.results_path }}" | jq .
+
+      - name: Upload TestBot Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: testbot-results-${{ github.run_number }}
+          path: results/
+          if-no-files-found: warn
