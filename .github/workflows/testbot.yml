@@ -1,0 +1,29 @@
+name: Run TestBot
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-testbot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Load Config
+        id: config
+        run: |
+          echo "config=$(cat configs/testbot-config.json | jq -c .)" >> $GITHUB_OUTPUT
+
+      - name: Run TestBot
+        id: testbot
+        uses: testbots-ai/Run-Testbot@v1.0.0
+        with:
+          jwt_token: ${{ secrets.TESTBOT_JWT_TOKEN }}
+          test_bot_configuration: ${{ steps.config.outputs.config }}
+
+      - name: Show Results
+        run: |
+          echo "Execution ID: ${{ steps.testbot.outputs.execution_id }}"
+          echo "Status: ${{ steps.testbot.outputs.status }}"
+          echo "Results: ${{ steps.testbot.outputs.results_path }}"
