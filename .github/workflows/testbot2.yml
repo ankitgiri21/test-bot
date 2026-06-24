@@ -37,25 +37,78 @@ jobs:
       - name: Display Result JSON
         if: always()
         run: |
-          echo "===== TESTBOT RESULT ====="
           cat "${{ steps.testbot.outputs.results_path }}" | jq .
 
-      # Optional: inspect generated files
-      - name: List Result Files
+      - name: Create JUnit XML from TestBot JSON
         if: always()
         run: |
-          echo "Files under results directory:"
-          find results -type f || true
+          python3 <<'PY'
+          import json
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+
+          json_file = Path("${{ steps.testbot.outputs.results_path }}")
+
+          with open(json_file, "r", encoding="utf-8") as f:
+              data = json.load(f)
+
+          summary = data.get("summary", {})
+
+          total = summary.get("totalScripts", 0)
+          failures = summary.get("failedScripts", 0)
+
+          suite = ET.Element(
+              "testsuite",
+              name=data.get("testBotName", "TestBot"),
+              tests=str(total),
+              failures=str(failures),
+              errors="0",
+          )
+
+          for test_suite in data.get("testSuiteResults", []):
+              for script in test_suite.get("testScriptResults", []):
+                  case = ET.SubElement(
+                      suite,
+                      "testcase",
+                      classname=test_suite.get("testSuiteName", "Suite"),
+                      name=script.get("testScriptName", "Test"),
+                  )
+
+                  if script.get("resultStatus") != "PASSED":
+                      failure = ET.SubElement(case, "failure")
+                      failure.text = script.get(
+                          "resultStatus",
+                          "FAILED"
+                      )
+
+          Path("results").mkdir(exist_ok=True)
+
+          tree = ET.ElementTree(suite)
+          tree.write(
+              "results/junit-results.xml",
+              encoding="utf-8",
+              xml_declaration=True
+          )
+
+          print("Created results/junit-results.xml")
+          PY
+
+      - name: Verify JUnit Report
+        if: always()
+        run: |
+          echo "Generated files:"
+          find results -type f
+          echo ""
+          echo "JUnit XML:"
+          cat results/junit-results.xml
 
       - name: Publish Test Results
-        if: (!cancelled())
+        if: ${{ !cancelled() }}
         uses: EnricoMi/publish-unit-test-result-action@v2
         with:
-          check_name: "TestBot Results"
-          files: |
-            results/**/*.xml
-            results/**/*.trx
-            results/**/*.json
+          check_name: TestBot Results
+          comment_title: TestBot Results
+          files: results/junit-results.xml
 
       - name: Upload TestBot Results
         if: always()
