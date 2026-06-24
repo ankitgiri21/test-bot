@@ -1,0 +1,182 @@
+name: Run TestBot3
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  run-testbot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Load Config
+        id: config
+        run: |
+          echo "config=$(cat configs/testbot-config.json | jq -c .)" >> $GITHUB_OUTPUT
+
+      - name: Run TestBot
+        id: testbot
+        uses: testbots-ai/Run-Testbot@v1.0.0
+        with:
+          jwt_token: ${{ secrets.TESTBOT_JWT_TOKEN }}
+          test_bot_configuration: ${{ steps.config.outputs.config }}
+
+      - name: Show Results Summary
+        if: always()
+        run: |
+          echo "Execution ID: ${{ steps.testbot.outputs.execution_id }}"
+          echo "Status: ${{ steps.testbot.outputs.status }}"
+          echo "Results: ${{ steps.testbot.outputs.results_path }}"
+
+      - name: Display Raw Result JSON
+        if: always()
+        run: |
+          cat "${{ steps.testbot.outputs.results_path }}" | jq .
+
+      - name: Generate JUnit XML + Markdown Report
+        if: always()
+        run: |
+          python3 <<'PY'
+          import json
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+
+          json_file = Path("${{ steps.testbot.outputs.results_path }}")
+
+          with open(json_file, "r", encoding="utf-8") as f:
+              data = json.load(f)
+
+          Path("results").mkdir(exist_ok=True)
+
+          summary = data["summary"]
+
+          # --------------------
+          # JUNIT XML
+          # --------------------
+          suite = ET.Element(
+              "testsuite",
+              name=data.get("testBotName", "TestBot"),
+              tests=str(summary.get("totalScripts", 0)),
+              failures=str(summary.get("failedScripts", 0)),
+              errors="0"
+          )
+
+          for ts in data.get("testSuiteResults", []):
+              suite_name = ts.get("testSuiteName", "Suite")
+
+              for script in ts.get("testScriptResults", []):
+                  tc = ET.SubElement(
+                      suite,
+                      "testcase",
+                      classname=suite_name,
+                      name=script.get("testScriptName", "Test")
+                  )
+
+                  if script.get("resultStatus") != "PASSED":
+                      fail = ET.SubElement(tc, "failure")
+                      fail.text = script.get("resultStatus")
+
+          ET.ElementTree(suite).write(
+              "results/junit-results.xml",
+              encoding="utf-8",
+              xml_declaration=True
+          )
+
+          # --------------------
+          # MARKDOWN REPORT
+          # --------------------
+          md = []
+
+          md.append("# TestBot Execution Report")
+          md.append("")
+          md.append(f"**Execution ID:** {data.get('executionId')}")
+          md.append("")
+          md.append(f"**Bot:** {data.get('testBotName')}")
+          md.append("")
+          md.append(f"**Status:** {data.get('status')}")
+          md.append("")
+          md.append(f"**Duration:** {summary.get('formattedDuration')}")
+          md.append("")
+
+          md.append("## Summary")
+          md.append("")
+          md.append("| Metric | Value |")
+          md.append("|----------|----------|")
+          md.append(f"| Total Suites | {summary.get('totalSuites')} |")
+          md.append(f"| Passed Suites | {summary.get('passedSuites')} |")
+          md.append(f"| Failed Suites | {summary.get('failedSuites')} |")
+          md.append(f"| Total Scripts | {summary.get('totalScripts')} |")
+          md.append(f"| Passed Scripts | {summary.get('passedScripts')} |")
+          md.append(f"| Failed Scripts | {summary.get('failedScripts')} |")
+
+          for suite in data.get("testSuiteResults", []):
+              md.append("")
+              md.append(f"## Suite: {suite['testSuiteName']}")
+              md.append("")
+
+              for script in suite.get("testScriptResults", []):
+                  icon = "✅" if script["resultStatus"] == "PASSED" else "❌"
+
+                  md.append(
+                      f"### {icon} {script['testScriptName']}"
+                  )
+
+                  for iteration in script.get("iterations", []):
+
+                      md.append("")
+                      md.append("| Step | Status | Description |")
+                      md.append("|------|--------|-------------|")
+
+                      for step in iteration.get("stepResults", []):
+                          status = step["resultStatus"]
+                          emoji = "✅" if status == "PASSED" else "❌"
+
+                          md.append(
+                              f"| {step['sequence']} | {emoji} {status} | {step['testStepName']} |"
+                          )
+
+          Path("results/report.md").write_text(
+              "\n".join(md),
+              encoding="utf-8"
+          )
+
+          print("Generated:")
+          print(" - results/junit-results.xml")
+          print(" - results/report.md")
+          PY
+
+      - name: Publish GitHub Job Summary
+        if: always()
+        run: |
+          cat results/report.md >> $GITHUB_STEP_SUMMARY
+
+      - name: Verify Generated Files
+        if: always()
+        run: |
+          echo "===== GENERATED FILES ====="
+          find results -type f
+
+      - name: Publish Test Results
+        if: ${{ !cancelled() }}
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          check_name: TestBot Results
+          comment_title: TestBot Results
+          files: results/junit-results.xml
+          fail_on: test failures
+
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: testbot-results-${{ github.run_number }}
+          path: |
+            results/*.xml
+            results/*.json
+            results/*.md
