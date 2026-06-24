@@ -1,0 +1,66 @@
+name: Run TestBot
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  run-testbot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Load Config
+        id: config
+        run: |
+          echo "config=$(cat configs/testbot-config.json | jq -c .)" >> $GITHUB_OUTPUT
+
+      - name: Run TestBot
+        id: testbot
+        uses: testbots-ai/Run-Testbot@v1.0.0
+        with:
+          jwt_token: ${{ secrets.TESTBOT_JWT_TOKEN }}
+          test_bot_configuration: ${{ steps.config.outputs.config }}
+
+      - name: Show Results Summary
+        if: always()
+        run: |
+          echo "Execution ID: ${{ steps.testbot.outputs.execution_id }}"
+          echo "Status: ${{ steps.testbot.outputs.status }}"
+          echo "Results: ${{ steps.testbot.outputs.results_path }}"
+
+      - name: Display Result JSON
+        if: always()
+        run: |
+          echo "===== TESTBOT RESULT ====="
+          cat "${{ steps.testbot.outputs.results_path }}" | jq .
+
+      # Optional: inspect generated files
+      - name: List Result Files
+        if: always()
+        run: |
+          echo "Files under results directory:"
+          find results -type f || true
+
+      - name: Publish Test Results
+        if: (!cancelled())
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          check_name: "TestBot Results"
+          files: |
+            results/**/*.xml
+            results/**/*.trx
+            results/**/*.json
+
+      - name: Upload TestBot Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: testbot-results-${{ github.run_number }}
+          path: results/
+          if-no-files-found: warn
