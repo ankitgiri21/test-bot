@@ -1,51 +1,50 @@
 {
-  "name": "AHQ Local Grid - TestingBot - DEV - Web - WIN11 - Chrome",
-  "testBotId": "fe549d1c-6222-4387-962f-e51339543729",
+  "name": "Premium Grid - AHQ Web App Environment - Web - WIN11 - Chrome",
+  "testBotId": "3b776ff7-1450-4494-b86b-a0fb59455b2f",
   "executionConfiguration": {
-    "baseUrl": "25d41d51-2143-493c-817e-5915117eb4da",
+    "baseUrl": "f6bbd580-a986-4715-8e72-d56abaa39019",
     "browser": "Chrome",
     "browserVersion": "149",
     "closeBrowserAfterEachExecution": true,
     "customProperties": [
       {
-        "customPropertyId": "9df5d346-d987-4bb6-8abe-cd1c4ed61def",
+        "customPropertyId": "82300790-2065-4b11-9558-bc5a8b23f9a3",
         "name": "Email",
-        "type": "7",
-        "value": "Email"
+        "value": "Kiaraforcadilla0+ahq2.0siteadmin@gmail.com",
+        "type": "0"
       },
       {
-        "customPropertyId": "dff66b74-fe99-45e3-af67-10942bef3942",
+        "customPropertyId": "68eedd68-6d53-4154-a5ed-1b1a383ff36e",
         "name": "Password",
-        "type": "7",
-        "value": "Password"
+        "value": "09187341007",
+        "type": "0"
       }
     ],
     "type": "Web",
-    "gridId": "cbed7ab1-198b-46b5-9a7e-8c4add4d3114",
+    "gridId": "4dbcc880-c515-46ca-b1ca-b3592a15a793",
     "excludeToBeRepairedTest": false,
     "gridUrl": "",
     "gridUrlForExecution": "",
     "osType": "WIN11",
-    "resolution": "1920x1200",
+    "resolution": "800x600",
     "screenshotAfterEachStep": false,
     "screenshotOnError": true,
-    "screenshotOnFinish": true,
+    "screenshotOnFinish": false,
     "timeout": 30,
     "waitForElementTimeout": 10,
-    "delayBetweenSteps": 3,
+    "delayBetweenSteps": 0,
     "numberOfRetries": 0,
     "browserConfigs": [
       {
         "osType": "WIN11",
         "browser": "Chrome",
         "browserVersion": "149",
-        "resolution": "1920x1200",
-        "gridId": "cbed7ab1-198b-46b5-9a7e-8c4add4d3114",
+        "resolution": "800x600",
+        "gridId": "4dbcc880-c515-46ca-b1ca-b3592a15a793",
         "gridUrl": null,
-        "profileId": "bb014683-aca6-483e-b33b-2126311c10e4",
-        "profileName": "KIARA"
+        "profileId": null,
+        "profileName": null
       }
     ]
-  },
-  "profileId": "bb014683-aca6-483e-b33b-2126311c10e4"
+  }
 }
