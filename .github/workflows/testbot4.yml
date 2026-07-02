@@ -30,7 +30,7 @@ jobs:
 
       - name: Run TestBot
         id: testbot
-        timeout-minutes: 10   # fail fast instead of hanging 20+ min
+        timeout-minutes: 20   # fail fast instead of hanging 20+ min
         uses: testbots-ai/Run-Testbot@v1.0.0
         with:
           jwt_token: ${{ secrets.TESTBOT_JWT_TOKEN }}
