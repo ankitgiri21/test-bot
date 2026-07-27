@@ -1,4 +1,4 @@
-name: Run TestBot1
+name: Run TestBot
 
 on:
   workflow_dispatch:
