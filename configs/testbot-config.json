@@ -1,14 +1,21 @@
 {
-  "name": "AHQ Premium Grid - UTAP - Web - WIN11 - Chrome",
-  "testBotId": "3457dfbc-53de-4ad5-b201-2f1af3ac49fa",
+  "name": "AHQ Premium Grid - TEST Env - Web - WIN11 - Chrome",
+  "testBotId": "a9ba9c83-d39e-48d7-87f2-52111b72b3ca",
   "executionConfiguration": {
-    "baseUrl": "a76c23aa-e4fb-4e02-9306-c27cc193dfd8",
+    "baseUrl": "5778d199-271d-4d3d-bc17-84a9c0313407",
     "browser": "Chrome",
     "browserVersion": "150",
     "closeBrowserAfterEachExecution": true,
-    "customProperties": [],
+    "customProperties": [
+      {
+        "customPropertyId": "3c7b95b3-0257-4e9f-b5ed-70bd8bd35e42",
+        "name": "UserRole",
+        "value": "Site Admin",
+        "type": "0"
+      }
+    ],
     "type": "Web",
-    "gridId": "48b3f170-3e2a-4c03-bcd0-bb93243a70c6",
+    "gridId": "d798c765-21c8-4404-a071-73829654aa4d",
     "excludeToBeRepairedTest": false,
     "gridUrl": "",
     "gridUrlForExecution": "",
@@ -16,7 +23,7 @@
     "resolution": "1920x1200",
     "screenshotAfterEachStep": false,
     "screenshotOnError": true,
-    "screenshotOnFinish": true,
+    "screenshotOnFinish": false,
     "timeout": 30,
     "waitForElementTimeout": 10,
     "delayBetweenSteps": 0,
@@ -27,11 +34,12 @@
         "browser": "Chrome",
         "browserVersion": "150",
         "resolution": "1920x1200",
-        "gridId": "48b3f170-3e2a-4c03-bcd0-bb93243a70c6",
+        "gridId": "d798c765-21c8-4404-a071-73829654aa4d",
         "gridUrl": null,
         "profileId": null,
         "profileName": null
       }
     ]
-  }
+  },
+  "profileId": null
 }
