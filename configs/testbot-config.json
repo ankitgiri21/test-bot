@@ -1,39 +1,14 @@
 {
-  "name": "AHQ Premium Grid - Octopod - Web - BIGSUR - Chrome",
-  "testBotId": "ebd6366d-5c9d-42b6-b081-a12d7a2d490d",
+  "name": "AHQ Local Grid - TestingBot - PROD - Web - BIGSUR - Chrome",
+  "testBotId": "16105273-9c61-473b-a3cd-d1b630b208af",
   "executionConfiguration": {
-    "baseUrl": "95f08583-149a-4ae5-8a4f-9f51a389f442",
+    "baseUrl": "2e4d5cb9-f35a-42bc-aaec-cedc1b02d3b4",
     "browser": "Chrome",
     "browserVersion": "138",
     "closeBrowserAfterEachExecution": true,
-    "customProperties": [
-      {
-        "customPropertyId": "501eeb09-ed24-4887-8af9-a27a8e2d5f26",
-        "name": "username",
-        "value": "Carlos123",
-        "type": "0"
-      },
-      {
-        "customPropertyId": "f7b2e7a2-53d4-4b86-88e4-ef1b6319712e",
-        "name": "password",
-        "value": "Carlos123",
-        "type": "0"
-      },
-      {
-        "customPropertyId": "8741bb72-8b8e-47ae-9b0b-c7dcd7f4c3dc",
-        "name": "Few",
-        "value": "15",
-        "type": "0"
-      },
-      {
-        "customPropertyId": "5fc7ccec-686e-4571-8f73-15c068bbe4c4",
-        "name": "URL",
-        "value": "https://octopod.co.in/",
-        "type": "0"
-      }
-    ],
+    "customProperties": [],
     "type": "Web",
-    "gridId": "524bc12a-c8e0-419b-8ce6-541bfa36120d",
+    "gridId": "57b2aa70-6c4e-4893-827f-fecda26ea633",
     "excludeToBeRepairedTest": false,
     "gridUrl": "",
     "gridUrlForExecution": "",
@@ -52,13 +27,12 @@
         "browser": "Chrome",
         "browserVersion": "138",
         "resolution": "800x600",
-        "gridId": "524bc12a-c8e0-419b-8ce6-541bfa36120d",
+        "gridId": "57b2aa70-6c4e-4893-827f-fecda26ea633",
         "gridUrl": null,
         "profileId": null,
         "profileName": null
       }
     ],
-    "targetBranchName": "main"
-  },
-  "profileId": null
+    "targetBranchName": "TEST"
+  }
 }
