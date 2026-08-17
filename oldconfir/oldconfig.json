@@ -1,0 +1,184 @@
+{
+  "name": "Github Action Execution",
+  "testBotId": "624ac634-c3ba-48a9-8084-09bb840cf5a9",
+  "executionConfiguration": {
+    "baseUrl": "05c21886-6975-4692-9ba5-70035506d3e2",
+    "browser": "Chrome",
+    "browserVersion": "150",
+    "closeBrowserAfterEachExecution": true,
+    "customProperties": [
+      {
+        "customPropertyId": "18cffa3d-4c91-4b17-8ee3-3fdfd570b103",
+        "name": "URL",
+        "value": "https://terra.octopod.co.in/",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "d34b3f56-17eb-4eef-9f39-af5364af24ab",
+        "name": "Few",
+        "value": "15",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "594fcd42-c822-4386-98ca-117e888087ee",
+        "name": "Username",
+        "value": "1788554433",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "124ba711-c344-42f1-99ea-3b751cae8051",
+        "name": "Password",
+        "value": "1234",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "61417066-3819-490b-a1ac-90a40c37d0d6",
+        "name": "AD Year",
+        "value": "ODD 2025-2026",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "50733b22-18be-4fbf-bb15-fa63e458957e",
+        "name": "Program",
+        "value": "B Arch",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "2767eb35-5660-4730-b3f7-18c29a5e9664",
+        "name": "Standard/Semester",
+        "value": "Semester 1",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "b13f5254-057f-4df7-9454-ffdf266db586",
+        "name": "Division/Department",
+        "value": "A",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "a1f244d9-b3fb-4426-b3da-d503310805e6",
+        "name": "AD Timestamp",
+        "value": "bio 07:30:00 - 08:30:00",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "d5092a93-f3b8-4d52-8adc-14a38bfbae42",
+        "name": "AD Subject",
+        "value": "Design studios (BA01)",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "2c423107-e80f-46db-b074-e36ec67111aa",
+        "name": "SM Year",
+        "value": "Even 2025-2026",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "c80d3924-46fe-4e36-ad60-6a284a9a1e39",
+        "name": "SM Gender",
+        "value": "Male",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "3f44402f-e18a-4f15-a895-60026b3d0a4a",
+        "name": "SM Board",
+        "value": "gujrat board",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "71f7b861-00e5-4aa5-8499-19866e4eeab3",
+        "name": "ACM - AD",
+        "value": "Attendance Dashboard",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "b0fbbf95-c2fa-4d5c-9cca-8879582bee6d",
+        "name": "ACM - D",
+        "value": "Dashboard",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "da96e574-c08d-4f5b-9797-c53ae0256f51",
+        "name": "Student Master",
+        "value": "Student Masters",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "783131c1-783e-4439-a19b-fed50a89b62f",
+        "name": "Academy",
+        "value": "Star College-Uni",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "c015a2c8-85c2-4c9a-b38d-fb19d917d919",
+        "name": "PROC - Category",
+        "value": "Furniture & Fixtures",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "6de7f958-ce13-48cf-b26e-a692322207d1",
+        "name": "PROC - Sub-Category",
+        "value": "Notice Boards & Display Panels",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "6cedb452-c721-4beb-a8c0-aa058b1c0d0f",
+        "name": "PROC - Item ( 1 )",
+        "value": "Blue Notice Board Blue color, (8' X 4')",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "ccb93aa1-4849-40f4-a816-b2330016bf3b",
+        "name": "PROC - Item ( 2 )",
+        "value": "Red Notice Board Red color, (3' X 2')",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "52bed63d-fa4f-435c-8087-f6c104db710e",
+        "name": "PROC - Vendor",
+        "value": "CHETAN",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "c0824577-4ebe-4feb-aa8c-e087b843d7a9",
+        "name": "PROC - Allocate To",
+        "value": "B.Com Building",
+        "type": "0"
+      },
+      {
+        "customPropertyId": "a1e451cf-1b95-4c33-9f82-4af93348eb7e",
+        "name": "Batch",
+        "value": "TEST",
+        "type": "0"
+      }
+    ],
+    "type": "Web",
+    "gridId": "961516f3-bb89-4d3b-b25b-570aeb910106",
+    "excludeToBeRepairedTest": false,
+    "gridUrl": "",
+    "gridUrlForExecution": "",
+    "osType": "WIN11",
+    "resolution": "1920x1200",
+    "screenshotAfterEachStep": false,
+    "screenshotOnError": true,
+    "screenshotOnFinish": true,
+    "timeout": 40,
+    "waitForElementTimeout": 30,
+    "delayBetweenSteps": 0,
+    "numberOfRetries": 0,
+    "browserConfigs": [
+      {
+        "osType": "WIN11",
+        "browser": "Chrome",
+        "browserVersion": "150",
+        "resolution": "1920x1200",
+        "gridId": "961516f3-bb89-4d3b-b25b-570aeb910106",
+        "gridUrl": null,
+        "profileId": "8614e03b-e6a3-437d-8274-bbbe6270519b",
+        "profileName": "Ephemeral"
+      }
+    ],
+    "targetBranchName": "main"
+  },
+  "profileId": "8614e03b-e6a3-437d-8274-bbbe6270519b"
+}
