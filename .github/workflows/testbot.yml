@@ -42,6 +42,95 @@ jobs:
           echo "Status: ${{ steps.testbot.outputs.status }}"
           echo "Results Path: ${{ steps.testbot.outputs.results_path }}"
 
+      - name: Generate Markdown Report
+        id: report
+        if: always() && steps.testbot.outputs.results_path != ''
+        run: |
+          set +e
+          REPORT_OUTPUT=$(python3 <<'PY' 2>&1
+          import json
+          from pathlib import Path
+
+          json_file = Path("${{ steps.testbot.outputs.results_path }}")
+
+          with open(json_file, "r", encoding="utf-8") as f:
+              data = json.load(f)
+
+          Path("results").mkdir(exist_ok=True)
+
+          summary = data.get("summary", {})
+
+          md = []
+          md.append("# TestBot Execution Report")
+          md.append("")
+          md.append(f"**Execution ID:** {data.get('executionId')}")
+          md.append("")
+          md.append(f"**Bot:** {data.get('testBotName')}")
+          md.append("")
+          md.append(f"**Status:** {data.get('status')}")
+          md.append("")
+          md.append(f"**Duration:** {summary.get('formattedDuration')}")
+          md.append("")
+          md.append("## Summary")
+          md.append("")
+          md.append("| Metric | Value |")
+          md.append("|----------|----------|")
+          md.append(f"| Total Suites | {summary.get('totalSuites')} |")
+          md.append(f"| Passed Suites | {summary.get('passedSuites')} |")
+          md.append(f"| Failed Suites | {summary.get('failedSuites')} |")
+          md.append(f"| Total Scripts | {summary.get('totalScripts')} |")
+          md.append(f"| Passed Scripts | {summary.get('passedScripts')} |")
+          md.append(f"| Failed Scripts | {summary.get('failedScripts')} |")
+
+          for suite in data.get("testSuiteResults", []):
+              md.append("")
+              md.append(f"## Suite: {suite.get('testSuiteName', 'Suite')}")
+              md.append("")
+              for script in suite.get("testScriptResults", []):
+                  icon = "✅" if script.get("resultStatus") == "PASSED" else "❌"
+                  md.append(f"### {icon} {script.get('testScriptName', 'Test')}")
+                  for iteration in script.get("iterations", []):
+                      md.append("")
+                      md.append("| Step | Status | Description |")
+                      md.append("|------|--------|-------------|")
+                      for step in iteration.get("stepResults", []):
+                          status = step.get("resultStatus")
+                          emoji = "✅" if status == "PASSED" else "❌"
+                          md.append(f"| {step.get('sequence')} | {emoji} {status} | {step.get('testStepName')} |")
+
+          Path("results/report.md").write_text("\n".join(md), encoding="utf-8")
+          print("Generated: results/report.md")
+          PY
+          )
+          REPORT_EXIT=$?
+          set -e
+
+          echo "$REPORT_OUTPUT"
+
+          if [ $REPORT_EXIT -ne 0 ]; then
+            echo "::warning::Report generation failed: $(echo "$REPORT_OUTPUT" | tail -c 500 | tr '\n\r' '  ')"
+          fi
+
+      - name: Publish GitHub Job Summary
+        if: always()
+        env:
+          EXECUTION_ID: ${{ steps.testbot.outputs.execution_id }}
+          FINAL_STATUS: ${{ steps.testbot.outputs.status }}
+        run: |
+          {
+            echo "## TestBot Run Status"
+            echo ""
+            echo "| Field | Value |"
+            echo "|-------|-------|"
+            echo "| Execution ID | ${EXECUTION_ID:-N/A} |"
+            echo "| Status | ${FINAL_STATUS:-DID NOT COMPLETE} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
+          if [ -f results/report.md ]; then
+            cat results/report.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
       - name: Publish Test Results
         if: always()
         uses: EnricoMi/publish-unit-test-result-action@v2
