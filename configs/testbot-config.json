@@ -1,19 +1,19 @@
 {
-  "name": "AHQ Local Grid - TestingBot - PROD - Web - BIGSUR - Chrome",
-  "testBotId": "16105273-9c61-473b-a3cd-d1b630b208af",
+  "name": "Github Execution",
+  "testBotId": "71efa1d6-74e7-4453-bbb4-ae6fd14334dd",
   "executionConfiguration": {
-    "baseUrl": "2e4d5cb9-f35a-42bc-aaec-cedc1b02d3b4",
+    "baseUrl": "207240c3-aaa9-4f09-8952-0696ce3a9ae8",
     "browser": "Chrome",
-    "browserVersion": "138",
+    "browserVersion": "147.0",
     "closeBrowserAfterEachExecution": true,
     "customProperties": [],
     "type": "Web",
-    "gridId": "57b2aa70-6c4e-4893-827f-fecda26ea633",
+    "gridId": "16678db2-3d7f-41d5-98fe-5af269f18964",
     "excludeToBeRepairedTest": false,
     "gridUrl": "",
     "gridUrlForExecution": "",
-    "osType": "BIGSUR",
-    "resolution": "800x600",
+    "osType": "Linux",
+    "resolution": "1920x1080",
     "screenshotAfterEachStep": false,
     "screenshotOnError": true,
     "screenshotOnFinish": false,
@@ -23,16 +23,16 @@
     "numberOfRetries": 0,
     "browserConfigs": [
       {
-        "osType": "BIGSUR",
+        "osType": "Linux",
         "browser": "Chrome",
-        "browserVersion": "138",
-        "resolution": "800x600",
-        "gridId": "57b2aa70-6c4e-4893-827f-fecda26ea633",
+        "browserVersion": "147.0",
+        "resolution": "1920x1080",
+        "gridId": "16678db2-3d7f-41d5-98fe-5af269f18964",
         "gridUrl": null,
         "profileId": null,
         "profileName": null
       }
     ],
-    "targetBranchName": "TEST"
+    "targetBranchName": "utap-sanity-build"
   }
 }
