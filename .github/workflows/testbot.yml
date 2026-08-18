@@ -3,6 +3,11 @@ name: Run TestBot
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
 jobs:
   run-testbot:
     runs-on: ubuntu-latest
