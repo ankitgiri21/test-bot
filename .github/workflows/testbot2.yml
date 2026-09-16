@@ -1,4 +1,4 @@
-name: Run TestBot2
+name: Run TestBot
 
 on:
   workflow_dispatch:
@@ -110,6 +110,14 @@ jobs:
           if [ $REPORT_EXIT -ne 0 ]; then
             echo "::warning::Report generation failed: $(echo "$REPORT_OUTPUT" | tail -c 500 | tr '\n\r' '  ')"
           fi
+
+      # Generate Allure Report via Action
+      - name: Generate Allure Report
+        uses: simple-elf/allure-report-action@v2
+        if: always()
+        with:
+          allure_results: allure-results
+          allure_history: allure-history
 
       - name: Publish GitHub Job Summary
         if: always()
